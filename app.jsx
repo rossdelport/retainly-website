@@ -135,6 +135,63 @@ function PhoneStage({ activeScreen, transform, opacity = 1 }) {
 }
 
 // ─────────────────────────────────────────────────────────────
+// Liquid Glass Button
+// ─────────────────────────────────────────────────────────────
+function LiquidGlassButton({ href, children }) {
+  const [hovered, setHovered] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => { setHovered(false); setPressed(false); }}
+      onMouseDown={() => setPressed(true)}
+      onMouseUp={() => setPressed(false)}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'inline-flex',
+        alignItems: 'center',
+        padding: '14px 22px',
+        borderRadius: 999,
+        textDecoration: 'none',
+        fontWeight: 600,
+        fontSize: 14.5,
+        color: '#0a0a0a',
+        background: 'linear-gradient(158deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.18) 55%, rgba(255,255,255,0.30) 100%)',
+        backdropFilter: 'blur(48px) saturate(260%) brightness(1.08)',
+        WebkitBackdropFilter: 'blur(48px) saturate(260%) brightness(1.08)',
+        border: '0.75px solid rgba(255,255,255,0.92)',
+        boxShadow: pressed
+          ? '0 2px 8px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.06)'
+          : hovered
+          ? '0 12px 36px rgba(0,0,0,0.13), 0 3px 10px rgba(0,0,0,0.09), inset 0 2px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(0,0,0,0.05), 0 0 0 0.5px rgba(255,255,255,0.4)'
+          : '0 6px 24px rgba(0,0,0,0.09), 0 1.5px 5px rgba(0,0,0,0.06), inset 0 1.5px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(0,0,0,0.04)',
+        transform: pressed ? 'scale(0.97)' : hovered ? 'translateY(-1.5px)' : 'translateY(0)',
+        transition: 'transform 140ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 200ms ease, background 200ms ease',
+        cursor: 'pointer',
+        userSelect: 'none',
+      }}
+    >
+      {/* curved specular streak — simulates light catching a convex glass surface */}
+      <span style={{
+        position: 'absolute',
+        top: 1,
+        left: '10%',
+        width: '52%',
+        height: '48%',
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0) 100%)',
+        borderRadius: '0 0 70% 70% / 0 0 100% 100%',
+        pointerEvents: 'none',
+        opacity: hovered ? 1 : 0.82,
+        transition: 'opacity 200ms ease',
+      }} />
+      {children}
+    </a>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Hero copy & feature copy
 // ─────────────────────────────────────────────────────────────
 function HeroCopy({ opacity, translateY, headline, sub }) {
@@ -190,11 +247,7 @@ function HeroCopy({ opacity, translateY, headline, sub }) {
           </svg>
           Download for iOS
         </a>
-        <a href="#demo" style={{
-          background: '#fff', color: '#0a0a0a', padding: '14px 22px',
-          borderRadius: 999, textDecoration: 'none', fontWeight: 600, fontSize: 14.5,
-          border: '0.5px solid #ececec',
-        }}>Book a demo →</a>
+        <LiquidGlassButton href="#demo">Book a demo →</LiquidGlassButton>
       </div>
     </div>
   );
@@ -635,6 +688,129 @@ function PinkStreakOverlay({ targetRef }) {
   );
 }
 
+function PricingSection() {
+  const CheckIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
+      <circle cx="9" cy="9" r="9" fill="#FFF0F5" />
+      <path d="M5 9l2.8 2.8 5-5.6" stroke="#FF3B7F" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+
+  const features1 = [
+    'Your own branded iOS & Android app',
+    'Buy Now Pay Later (Klarna) integration',
+    'Custom loyalty & rewards program',
+    'Automated push notifications',
+    'Membership management',
+    'Birthday & seasonal automated offers',
+  ];
+
+  const features2 = [
+    'Everything in Clinic Growth Plan',
+    'Monthly consulting call',
+    'Priority support',
+    'Zero setup fee',
+    'Done for you setup',
+    'Clinic marketing material',
+  ];
+
+  return (
+    <section id="pricing" style={{ padding: '100px 32px', maxWidth: 1280, margin: '0 auto' }}>
+      <div style={{ textAlign: 'center', marginBottom: 64 }}>
+        <h2 style={{
+          margin: '0 0 18px',
+          fontSize: 'clamp(38px, 5vw, 64px)',
+          fontWeight: 800, letterSpacing: -1.8, lineHeight: 1.05, color: '#0a0a0a',
+        }}>Simple, transparent pricing</h2>
+        <p style={{ margin: 0, fontSize: 18, color: '#6a6a6a', fontWeight: 400 }}>
+          Everything you need to retain patients and grow your clinic… with 2 simple plans
+        </p>
+      </div>
+
+      <div style={{
+        display: 'grid', gridTemplateColumns: '1fr 1fr',
+        gap: 24, maxWidth: 920, margin: '0 auto',
+      }}>
+
+        {/* Clinic Growth Plan */}
+        <div style={{
+          background: '#fff', border: '1px solid #e8e8e8',
+          borderRadius: 22, padding: '44px 40px',
+          display: 'flex', flexDirection: 'column',
+        }}>
+          <h3 style={{ margin: '0 0 14px', fontSize: 22, fontWeight: 700, letterSpacing: -0.4, color: '#0a0a0a' }}>
+            Clinic Growth Plan
+          </h3>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 14 }}>
+            <span style={{ fontSize: 58, fontWeight: 800, letterSpacing: -2.5, color: '#0a0a0a', lineHeight: 1 }}>$297</span>
+            <span style={{ fontSize: 16, color: '#9a9a9a', fontWeight: 500 }}>/mo</span>
+          </div>
+          <div style={{
+            alignSelf: 'flex-start', background: '#FFF0F5', color: '#FF3B7F',
+            fontSize: 12.5, fontWeight: 600, padding: '5px 13px',
+            borderRadius: 999, marginBottom: 32,
+          }}>Cancel any time. No lock-in contracts.</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 15, flex: 1, marginBottom: 36 }}>
+            {features1.map((f) => (
+              <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 11, fontSize: 15, color: '#1a1a1a' }}>
+                <CheckIcon />{f}
+              </div>
+            ))}
+          </div>
+          <a href="#demo" style={{
+            display: 'block', textAlign: 'center',
+            background: '#FF3B7F', color: '#fff',
+            padding: '16px', borderRadius: 999,
+            textDecoration: 'none', fontWeight: 700, fontSize: 15.5,
+          }}>Get Your App</a>
+        </div>
+
+        {/* Annual Plan */}
+        <div style={{
+          background: '#fff', border: '1.5px solid #FFB3CC',
+          borderRadius: 22, padding: '44px 40px',
+          position: 'relative', display: 'flex', flexDirection: 'column',
+        }}>
+          <div style={{
+            position: 'absolute', top: 0, right: 0,
+            background: '#FF3B7F', color: '#fff',
+            fontSize: 11, fontWeight: 800, letterSpacing: 1.3,
+            textTransform: 'uppercase', padding: '7px 16px',
+            borderRadius: '0 20px 0 12px',
+          }}>Best Value</div>
+
+          <h3 style={{ margin: '0 0 14px', fontSize: 22, fontWeight: 700, letterSpacing: -0.4, color: '#0a0a0a' }}>
+            Annual Plan
+          </h3>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 14 }}>
+            <span style={{ fontSize: 58, fontWeight: 800, letterSpacing: -2.5, color: '#0a0a0a', lineHeight: 1 }}>$2,997</span>
+            <span style={{ fontSize: 16, color: '#9a9a9a', fontWeight: 500 }}>/yr</span>
+          </div>
+          <div style={{
+            alignSelf: 'flex-start', background: '#FFF0F5', color: '#FF3B7F',
+            fontSize: 12.5, fontWeight: 600, padding: '5px 13px',
+            borderRadius: 999, marginBottom: 32,
+          }}>Save $564 a year</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 15, flex: 1, marginBottom: 36 }}>
+            {features2.map((f) => (
+              <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 11, fontSize: 15, color: '#1a1a1a' }}>
+                <CheckIcon />{f}
+              </div>
+            ))}
+          </div>
+          <a href="#demo" style={{
+            display: 'block', textAlign: 'center',
+            background: '#FF3B7F', color: '#fff',
+            padding: '16px', borderRadius: 999,
+            textDecoration: 'none', fontWeight: 700, fontSize: 15.5,
+          }}>Get Your App</a>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
 function CTAFooter() {
   const cardRef = useRef(null);
   return (
@@ -729,6 +905,7 @@ function App() {
       <ScrollStage tweaks={t} stageRef={stageRef} />
       <FeaturesGrid />
       <LovedBy />
+      <PricingSection />
       <CTAFooter />
 
       <TweaksPanel>
