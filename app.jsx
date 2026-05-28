@@ -58,37 +58,114 @@ function useViewport() {
 // Top nav
 // ─────────────────────────────────────────────────────────────
 function NavBar({ scrolled, hideT = 0 }) {
-  // hideT goes 0 → 1 as the nav should disappear. Driven continuously by scroll,
-  // so the slide-up tracks the user's scroll instead of stepping at a threshold.
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { w } = useViewport();
+  const isMobile = w < 768;
+
+  useEffect(() => { if (!isMobile) setMenuOpen(false); }, [isMobile]);
+
+  const links = [
+    { label: 'Features', href: '#features' },
+    { label: 'For clinics', href: '#clinics' },
+    { label: 'Pricing', href: '#pricing' },
+    { label: 'Log in', href: '#login' },
+  ];
+
   return (
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '20px 32px',
-      background: scrolled ? 'rgba(255,255,255,0.85)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
-      WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
-      borderBottom: scrolled ? '0.5px solid #ececec' : '0.5px solid transparent',
       transform: `translateY(${-hideT * 100}%)`,
       opacity: 1 - hideT,
       pointerEvents: hideT > 0.5 ? 'none' : 'auto',
-      transition: 'background 240ms ease, border-color 240ms ease',
       willChange: 'transform, opacity',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <RetainlyLogo />
-        <span style={{ fontSize: 19, fontWeight: 700, letterSpacing: -0.5 }}>Retainly</span>
+      {/* Main bar */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '20px 32px',
+        background: scrolled || menuOpen ? 'rgba(255,255,255,0.92)' : 'transparent',
+        backdropFilter: scrolled || menuOpen ? 'blur(20px) saturate(180%)' : 'none',
+        WebkitBackdropFilter: scrolled || menuOpen ? 'blur(20px) saturate(180%)' : 'none',
+        borderBottom: scrolled || menuOpen ? '0.5px solid #ececec' : '0.5px solid transparent',
+        transition: 'background 240ms ease, border-color 240ms ease',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <RetainlyLogo />
+          <span style={{ fontSize: 19, fontWeight: 700, letterSpacing: -0.5 }}>Retainly</span>
+        </div>
+
+        {/* Desktop nav */}
+        {!isMobile && (
+          <nav style={{ display: 'flex', alignItems: 'center', gap: 28, fontSize: 14, fontWeight: 500, color: '#3a3a3a', whiteSpace: 'nowrap' }}>
+            {links.map((l) => (
+              <a key={l.href} href={l.href} style={{ color: 'inherit', textDecoration: 'none' }}>{l.label}</a>
+            ))}
+            <a href="#book" style={{
+              background: '#0a0a0a', color: '#fff', padding: '10px 18px',
+              borderRadius: 999, textDecoration: 'none', fontWeight: 600, fontSize: 13.5,
+            }}>Book a demo</a>
+          </nav>
+        )}
+
+        {/* Mobile hamburger */}
+        {isMobile && (
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: 6, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            {menuOpen ? (
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M5 5l12 12M17 5L5 17" stroke="#0a0a0a" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M3 6h16M3 11h16M3 16h16" stroke="#0a0a0a" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            )}
+          </button>
+        )}
       </div>
-      <nav style={{ display: 'flex', alignItems: 'center', gap: 28, fontSize: 14, fontWeight: 500, color: '#3a3a3a', whiteSpace: 'nowrap' }}>
-        <a href="#features" style={{ color: 'inherit', textDecoration: 'none' }}>Features</a>
-        <a href="#clinics" style={{ color: 'inherit', textDecoration: 'none' }}>For clinics</a>
-        <a href="#pricing" style={{ color: 'inherit', textDecoration: 'none' }}>Pricing</a>
-        <a href="#login" style={{ color: 'inherit', textDecoration: 'none' }}>Log in</a>
-        <a href="#book" style={{
-          background: '#0a0a0a', color: '#fff', padding: '10px 18px',
-          borderRadius: 999, textDecoration: 'none', fontWeight: 600, fontSize: 13.5,
-        }}>Book a demo</a>
-      </nav>
+
+      {/* Mobile dropdown */}
+      {isMobile && (
+        <div style={{
+          background: 'rgba(255,255,255,0.97)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          borderBottom: '0.5px solid #ececec',
+          overflow: 'hidden',
+          maxHeight: menuOpen ? 400 : 0,
+          transition: 'max-height 320ms cubic-bezier(0.22, 1, 0.36, 1)',
+        }}>
+          <div style={{ padding: '8px 24px 28px', display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {links.map((l) => (
+              <a
+                key={l.href} href={l.href}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  color: '#1a1a1a', textDecoration: 'none',
+                  fontSize: 17, fontWeight: 500,
+                  padding: '13px 0',
+                  borderBottom: '0.5px solid #f0f0f0',
+                }}
+              >{l.label}</a>
+            ))}
+            <a
+              href="#book"
+              onClick={() => setMenuOpen(false)}
+              style={{
+                marginTop: 16, display: 'block', textAlign: 'center',
+                background: '#FF3B7F', color: '#fff',
+                padding: '14px', borderRadius: 999,
+                textDecoration: 'none', fontWeight: 700, fontSize: 15,
+              }}
+            >Book a demo</a>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -554,7 +631,7 @@ function FeaturesGrid() {
           Built for clinics that<br/>actually care about retention.
         </h2>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 48 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 48 }}>
         {items.map((it, i) => (
           <div key={i} style={{ borderTop: '1px solid #ececec', paddingTop: 28 }}>
             <div style={{ fontSize: 12, fontWeight: 600, color: '#9a9a9a', letterSpacing: 1.2, textTransform: 'uppercase', marginBottom: 14 }}>
