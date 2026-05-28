@@ -850,8 +850,8 @@ function PricingSection() {
       </div>
 
       <div style={{
-        display: 'grid', gridTemplateColumns: '1fr 1fr',
-        gap: 24, maxWidth: 920, margin: '0 auto',
+        display: 'grid', gridTemplateColumns: '1fr',
+        gap: 24, maxWidth: 560, margin: '0 auto',
       }}>
 
         {/* Clinic Growth Plan */}
