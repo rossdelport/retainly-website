@@ -573,6 +573,7 @@ function PinkStreakOverlay({ targetRef }) {
     let points = [];
     let raf = 0;
     let alive = true;
+    let idle = true; // loop only runs when there are points to draw
 
     const resize = () => {
       const rect = target.getBoundingClientRect();
@@ -593,37 +594,29 @@ function PinkStreakOverlay({ targetRef }) {
       const y = e.clientY - rect.top;
       const now = performance.now();
 
-      // Densify: when the cursor jumps a long distance between events (fast move),
-      // walk the gap and insert intermediate points with interpolated timestamps.
-      // Without this, fast moves create one chunky segment that all fades together.
       const last = points[points.length - 1];
       if (last && now - last.t < 200) {
         const dx = x - last.x;
         const dy = y - last.y;
         const dist = Math.hypot(dx, dy);
-        const STEP = 4; // px between samples
+        const STEP = 4;
         if (dist > STEP) {
           const steps = Math.min(Math.ceil(dist / STEP), 60);
           const dt = now - last.t;
           for (let i = 1; i < steps; i++) {
             const u = i / steps;
-            points.push({
-              x: last.x + dx * u,
-              y: last.y + dy * u,
-              t: last.t + dt * u,
-            });
+            points.push({ x: last.x + dx * u, y: last.y + dy * u, t: last.t + dt * u });
           }
         }
       }
       points.push({ x, y, t: now });
-    };
-    const onLeave = () => {
-      // Let the existing tail finish fading; don't clear instantly.
-    };
-    target.addEventListener('mousemove', onMove);
-    target.addEventListener('mouseleave', onLeave);
 
-    const LIFE = 1300; // ms — total trail lifetime
+      if (idle) { idle = false; raf = requestAnimationFrame(draw); }
+    };
+
+    target.addEventListener('mousemove', onMove);
+
+    const LIFE = 1300;
 
     const draw = () => {
       if (!alive) return;
@@ -631,49 +624,62 @@ function PinkStreakOverlay({ targetRef }) {
       const rect = target.getBoundingClientRect();
       ctx.clearRect(0, 0, rect.width, rect.height);
 
-      // Drop old points
       points = points.filter((p) => now - p.t < LIFE);
 
       if (points.length > 1) {
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.shadowColor = '#FF3B7F';
-        ctx.shadowBlur = 22;
-        ctx.globalCompositeOperation = 'lighter'; // additive on dark bg
+        ctx.globalCompositeOperation = 'lighter';
 
-        for (let i = 1; i < points.length; i++) {
-          const p1 = points[i - 1];
-          const p2 = points[i];
-          // Skip jumps (e.g. mouse re-entered after leaving)
-          const dx = p2.x - p1.x;
-          const dy = p2.y - p1.y;
-          if (dx * dx + dy * dy > 6400) continue; // > 80px gap
+        // Two passes replace shadowBlur: wide faint glow + narrow bright core.
+        // Identical look, a fraction of the GPU cost.
+        for (let pass = 0; pass < 2; pass++) {
+          for (let i = 1; i < points.length; i++) {
+            const p1 = points[i - 1];
+            const p2 = points[i];
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            if (dx * dx + dy * dy > 6400) continue;
 
-          const age = (now - p2.t) / LIFE;
-          const fade = Math.pow(1 - age, 1.4);
-          const alpha = fade * 0.85;
-          const width = fade * 12;
-          if (width < 0.5) continue;
+            const age = (now - p2.t) / LIFE;
+            const fade = Math.pow(1 - age, 1.4);
+            if (fade < 0.01) continue;
 
-          ctx.strokeStyle = `rgba(255, 80, 140, ${alpha})`;
-          ctx.lineWidth = width;
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.stroke();
+            if (pass === 0) {
+              const width = fade * 26;
+              if (width < 1) continue;
+              ctx.strokeStyle = `rgba(255,60,130,${fade * 0.15})`;
+              ctx.lineWidth = width;
+            } else {
+              const width = fade * 6;
+              if (width < 0.5) continue;
+              ctx.strokeStyle = `rgba(255,80,140,${fade * 0.85})`;
+              ctx.lineWidth = width;
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
         }
       }
 
-      raf = requestAnimationFrame(draw);
+      if (points.length > 0) {
+        raf = requestAnimationFrame(draw);
+      } else {
+        // Trail fully faded — stop the loop until next mousemove
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        idle = true;
+        raf = 0;
+      }
     };
-    raf = requestAnimationFrame(draw);
 
     return () => {
       alive = false;
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       ro.disconnect();
       target.removeEventListener('mousemove', onMove);
-      target.removeEventListener('mouseleave', onLeave);
     };
   }, [targetRef]);
 
