@@ -650,26 +650,165 @@ function FeaturesGrid() {
   );
 }
 
-function LovedBy() {
-  const clinics = ['Sky Aesthetics', 'House of Glow', 'The Skin Studio', 'Lumen Clinic', 'Maven & Co.', 'Veil Aesthetics'];
-  return (
-    <section id="clinics" style={{
-      padding: '60px 32px 100px', borderTop: '1px solid #ececec', borderBottom: '1px solid #ececec',
-      background: '#fafafa',
-    }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        <div style={{
-          fontSize: 12, fontWeight: 700, color: '#9a9a9a',
-          letterSpacing: 1.6, textTransform: 'uppercase', textAlign: 'center', marginBottom: 36,
-        }}>
-          Trusted by 240+ aesthetic clinics
+function HowItWorks() {
+  const steps = [
+    {
+      number: '1',
+      title: 'Retainly imports your brand info',
+      body: 'By scraping your website for logo, colours, services & pricing to create your app in record time.',
+      illustration: (
+        <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Laptop */}
+          <svg width="160" height="110" viewBox="0 0 160 110" fill="none">
+            <rect x="20" y="10" width="120" height="76" rx="6" fill="#1a1a1a" stroke="#333" strokeWidth="1.2"/>
+            <rect x="26" y="16" width="108" height="64" rx="3" fill="#0d0d0d"/>
+            {/* Screen content */}
+            <rect x="32" y="22" width="50" height="6" rx="2" fill="#FF3B7F" opacity="0.9"/>
+            <rect x="32" y="32" width="96" height="3" rx="1.5" fill="#2a2a2a"/>
+            <rect x="32" y="38" width="72" height="3" rx="1.5" fill="#2a2a2a"/>
+            <rect x="32" y="48" width="44" height="18" rx="3" fill="#1e1e1e" stroke="#FF3B7F" strokeWidth="0.8" strokeOpacity="0.5"/>
+            <rect x="80" y="48" width="44" height="18" rx="3" fill="#FF3B7F" opacity="0.15"/>
+            <rect x="32" y="70" width="96" height="3" rx="1.5" fill="#2a2a2a"/>
+            <rect x="10" y="86" width="140" height="6" rx="3" fill="#222"/>
+            <rect x="55" y="92" width="50" height="4" rx="2" fill="#1a1a1a"/>
+          </svg>
+          {/* Phone */}
+          <div style={{ position: 'absolute', right: 28, bottom: 10 }}>
+            <svg width="54" height="90" viewBox="0 0 54 90" fill="none">
+              <rect x="1" y="1" width="52" height="88" rx="8" fill="#1a1a1a" stroke="#444" strokeWidth="1"/>
+              <rect x="5" y="8" width="44" height="70" rx="4" fill="#0d0d0d"/>
+              <rect x="9" y="14" width="36" height="14" rx="2" fill="#FF3B7F" opacity="0.2"/>
+              <rect x="9" y="32" width="16" height="16" rx="2" fill="#FF3B7F" opacity="0.35"/>
+              <rect x="29" y="32" width="16" height="16" rx="2" fill="#FF3B7F" opacity="0.2"/>
+              <rect x="9" y="52" width="16" height="16" rx="2" fill="#FF3B7F" opacity="0.2"/>
+              <rect x="29" y="52" width="16" height="16" rx="2" fill="#FF3B7F" opacity="0.35"/>
+              <circle cx="27" cy="84" r="3" fill="#333"/>
+            </svg>
+          </div>
+          {/* Robot icon */}
+          <div style={{ position: 'absolute', top: 12, right: 48 }}>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="14" fill="#FF3B7F" opacity="0.15"/>
+              <circle cx="16" cy="16" r="10" fill="#FF3B7F" opacity="0.25"/>
+              <circle cx="16" cy="16" r="6" fill="#FF3B7F"/>
+              <path d="M13 15l2 2 4-4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
         </div>
-        <div style={{
-          display: 'flex', justifyContent: 'center', alignItems: 'center',
-          gap: 56, flexWrap: 'wrap',
-          fontSize: 22, fontWeight: 700, color: '#bcbcbc', letterSpacing: -0.4,
-        }}>
-          {clinics.map((c) => <span key={c}>{c}</span>)}
+      ),
+    },
+    {
+      number: '2',
+      title: 'Receive your app, 24h later',
+      body: "You'll have the ability to immediately download your app from the App Store & Google Play on your phone!",
+      illustration: (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', position: 'relative' }}>
+          {/* Glow */}
+          <div style={{
+            position: 'absolute', width: 120, height: 120, borderRadius: '50%',
+            background: 'radial-gradient(closest-side, rgba(255,59,127,0.35), transparent)',
+            filter: 'blur(16px)',
+          }}/>
+          {/* Hand + phone */}
+          <svg width="130" height="160" viewBox="0 0 130 160" fill="none">
+            {/* Hand */}
+            <ellipse cx="65" cy="130" rx="40" ry="32" fill="#5a3a3a" opacity="0.8"/>
+            <rect x="42" y="90" width="46" height="50" rx="8" fill="#6b4444"/>
+            {/* Phone */}
+            <rect x="35" y="30" width="60" height="100" rx="10" fill="#1e1e1e" stroke="#444" strokeWidth="1"/>
+            <rect x="40" y="38" width="50" height="82" rx="6" fill="#111"/>
+            {/* Logo on screen */}
+            <circle cx="65" cy="79" r="20" fill="#FF3B7F" opacity="0.15"/>
+            <circle cx="65" cy="79" r="13" fill="#FF3B7F" opacity="0.3"/>
+            <circle cx="65" cy="79" r="8" fill="#FF3B7F"/>
+            <path d="M61 79l2.5 2.5 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            {/* Notch */}
+            <rect x="55" y="32" width="20" height="5" rx="2.5" fill="#0a0a0a"/>
+          </svg>
+        </div>
+      ),
+    },
+    {
+      number: '3',
+      title: 'Start making passive sales!',
+      body: 'Introduce the app to your patients and start capturing treatment sales while you sleep.',
+      illustration: (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', position: 'relative' }}>
+          {/* Bed / sleeping scene */}
+          <svg width="200" height="140" viewBox="0 0 200 140" fill="none">
+            {/* Pillow */}
+            <ellipse cx="80" cy="95" rx="55" ry="22" fill="#2a1a2a"/>
+            {/* Blanket */}
+            <path d="M10 100 Q80 85 160 105 L165 135 Q80 125 15 135 Z" fill="#3d1a2e"/>
+            {/* Person head */}
+            <circle cx="80" cy="78" r="20" fill="#c68642"/>
+            {/* Hair */}
+            <path d="M62 70 Q80 55 98 70 Q95 60 80 56 Q65 57 62 70Z" fill="#2a1a0a"/>
+            {/* ZZZ */}
+            <text x="112" y="55" fontSize="14" fontWeight="700" fill="#FF3B7F" opacity="0.7" fontFamily="sans-serif">z</text>
+            <text x="124" y="42" fontSize="18" fontWeight="700" fill="#FF3B7F" opacity="0.5" fontFamily="sans-serif">z</text>
+            <text x="140" y="27" fontSize="22" fontWeight="700" fill="#FF3B7F" opacity="0.35" fontFamily="sans-serif">z</text>
+          </svg>
+          {/* Notification badge */}
+          <div style={{
+            position: 'absolute', top: 14, right: 16,
+            background: 'rgba(255,255,255,0.1)',
+            backdropFilter: 'blur(8px)',
+            border: '0.5px solid rgba(255,255,255,0.15)',
+            borderRadius: 10, padding: '7px 13px',
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}>
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#FF3B7F' }}/>
+            <span style={{ color: '#fff', fontSize: 12, fontWeight: 600 }}>New sale! +$1,500</span>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <section id="clinics" style={{ padding: '80px 32px 100px', borderTop: '1px solid #ececec' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ marginBottom: 56 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: '#FF3B7F', marginBottom: 14 }}>
+            No credit card needed
+          </div>
+          <div style={{ display: 'flex', gap: 0 }}>
+            <div style={{ width: 4, background: '#FF3B7F', borderRadius: 999, marginRight: 20, flexShrink: 0 }}/>
+            <div>
+              <h2 style={{
+                margin: '0 0 14px', fontSize: 'clamp(32px, 4.5vw, 58px)',
+                fontWeight: 800, letterSpacing: -1.6, lineHeight: 1.05, color: '#0a0a0a',
+              }}>3 Easy steps to build your app right now!</h2>
+              <p style={{ margin: 0, fontSize: 17, color: '#6a6a6a', fontWeight: 400 }}>
+                Free trial. Preview your app today.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Steps grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          {steps.map((s) => (
+            <div key={s.number}>
+              {/* Dark illustration card */}
+              <div style={{
+                background: '#0f0f0f', borderRadius: 16,
+                height: 200, overflow: 'hidden', marginBottom: 20,
+                position: 'relative',
+              }}>
+                {s.illustration}
+              </div>
+              {/* Text */}
+              <h3 style={{ margin: '0 0 10px', fontSize: 19, fontWeight: 700, letterSpacing: -0.4, color: '#0a0a0a' }}>
+                {s.number}. {s.title}
+              </h3>
+              <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: '#5a5a5a' }}>
+                {s.body}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -1029,7 +1168,7 @@ function App() {
       <NavBar scrolled={scrollY > 80} hideT={navHideT} />
       <ScrollStage tweaks={t} stageRef={stageRef} />
       <FeaturesGrid />
-      <LovedBy />
+      <HowItWorks />
       <PricingSection />
       <CTAFooter />
 
