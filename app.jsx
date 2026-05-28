@@ -1132,10 +1132,10 @@ function CTAFooter() {
           <span style={{ marginLeft: 12 }}>© 2026 Retainly Inc.</span>
         </div>
         <div style={{ display: 'flex', gap: 22 }}>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Security</a>
-          <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</a>
+          <a href="privacy.html" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy</a>
+          <a href="terms.html" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</a>
+          <a href="security.html" style={{ color: 'inherit', textDecoration: 'none' }}>Security</a>
+          <a href="contact.html" style={{ color: 'inherit', textDecoration: 'none' }}>Contact</a>
         </div>
       </footer>
     </section>
