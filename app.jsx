@@ -470,7 +470,7 @@ function ScrollStage({ tweaks, stageRef }) {
   const featureOpacity = clamp(easeRange(p, 0.14, 0.22) - easeRange(p, 0.96, 1.00));
 
   // Mobile: pixel position just below the phone's bottom edge
-  const phoneBottomPx = vh / 2 + (874 * fitScale) / 2 + 18;
+  const phoneBottomPx = vh / 2 + (874 * fitScale) / 2 + 40;
 
   return (
     <section ref={stageRef} style={{
