@@ -194,10 +194,10 @@ function LiquidGlassButton({ href, children }) {
 // ─────────────────────────────────────────────────────────────
 // Hero copy & feature copy
 // ─────────────────────────────────────────────────────────────
-function HeroCopy({ opacity, translateY, headline, sub }) {
+function HeroCopy({ opacity, translateY, headline, sub, isMobile }) {
   return (
     <div style={{
-      position: 'absolute', top: '13vh', left: 0, right: 0,
+      position: 'absolute', top: isMobile ? '20vh' : '13vh', left: 0, right: 0,
       textAlign: 'center', padding: '0 24px',
       opacity, transform: `translateY(${translateY}px)`,
       willChange: 'opacity, transform', pointerEvents: opacity > 0.1 ? 'auto' : 'none',
@@ -497,6 +497,7 @@ function ScrollStage({ tweaks, stageRef }) {
           translateY={heroTranslateY}
           headline={tweaks.headline}
           sub={tweaks.subheadline}
+          isMobile={isMobile}
         />
 
         {isMobile
