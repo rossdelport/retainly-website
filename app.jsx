@@ -651,6 +651,8 @@ function FeaturesGrid() {
 }
 
 function HowItWorks() {
+  const { w } = useViewport();
+  const isMobile = w < 768;
   const steps = [
     {
       number: '1',
@@ -789,7 +791,7 @@ function HowItWorks() {
         </div>
 
         {/* Steps grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 24 }}>
           {steps.map((s) => (
             <div key={s.number}>
               {/* Dark illustration card */}
