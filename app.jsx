@@ -370,11 +370,42 @@ function FeaturePane({ activeIdx, opacity }) {
 }
 
 // ─────────────────────────────────────────────────────────────
+// Mobile: just the active screen title, shown below the phone
+// ─────────────────────────────────────────────────────────────
+function MobileScreenTitle({ activeIdx, opacity, topPx }) {
+  const screens = window.RetainlyScreens;
+  if (!screens) return null;
+  return (
+    <div style={{
+      position: 'absolute', top: topPx, left: 0, right: 0,
+      textAlign: 'center', padding: '0 28px',
+      opacity, willChange: 'opacity', pointerEvents: 'none',
+    }}>
+      {screens.map((s, i) => (
+        <div key={i} style={{
+          position: i === activeIdx ? 'relative' : 'absolute',
+          inset: i === activeIdx ? 'auto' : 0,
+          opacity: i === activeIdx ? 1 : 0,
+          transform: `translateY(${i === activeIdx ? 0 : 8}px)`,
+          transition: 'opacity 380ms ease, transform 440ms cubic-bezier(0.22, 1, 0.36, 1)',
+        }}>
+          <h2 style={{
+            margin: 0,
+            fontSize: 'clamp(22px, 6vw, 30px)',
+            fontWeight: 800, letterSpacing: -0.6, lineHeight: 1.1, color: '#0a0a0a',
+          }}>{s.title}</h2>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Scroll-driven hero stage
 // ─────────────────────────────────────────────────────────────
 function ScrollStage({ tweaks, stageRef }) {
   const scrollY = useScrollY();
-  const { h: vh } = useViewport();
+  const { w: vw, h: vh } = useViewport();
 
   // total stage height in viewports — higher scrollSpeed = shorter stage = faster animation
   const STAGE_VH = 4.2 / (tweaks.scrollSpeed || 1);
@@ -405,9 +436,10 @@ function ScrollStage({ tweaks, stageRef }) {
   const flipT = easeRange(p, 0.04, 0.14);
   const rotateX = lerp(72, 0, flipT);
 
-  // Responsive scale — ensure the phone always fits inside the viewport with comfortable padding.
-  // Cap the requested scale by what the viewport can hold (90px of breathing room top + bottom).
-  const fitScale = Math.max(0.45, Math.min(tweaks.phoneScale, (vh - 90) / 874));
+  const isMobile = vw < 768;
+
+  // Responsive scale — cap by height and, on mobile, by width too so the phone never overflows.
+  const fitScale = Math.max(0.45, Math.min(tweaks.phoneScale, (vh - 90) / 874, isMobile ? (vw - 20) / 402 : Infinity));
   // translateY in pixels — phone height after scaling.
   // At rest in the hero, the top edge of the (rotated) phone sits about 18% of the way up from
   // the viewport bottom — visible enough to invite scrolling, without competing with the hero copy.
@@ -437,6 +469,9 @@ function ScrollStage({ tweaks, stageRef }) {
   // ── Feature pane opacity (visible while phone is static) ──
   const featureOpacity = clamp(easeRange(p, 0.14, 0.22) - easeRange(p, 0.96, 1.00));
 
+  // Mobile: pixel position just below the phone's bottom edge
+  const phoneBottomPx = vh / 2 + (874 * fitScale) / 2 + 18;
+
   return (
     <section ref={stageRef} style={{
       position: 'relative', height: `${STAGE_VH * 100}vh`, background: '#fff',
@@ -464,7 +499,10 @@ function ScrollStage({ tweaks, stageRef }) {
           sub={tweaks.subheadline}
         />
 
-        <FeaturePane activeIdx={activeScreen} opacity={featureOpacity} />
+        {isMobile
+          ? <MobileScreenTitle activeIdx={activeScreen} opacity={featureOpacity} topPx={phoneBottomPx} />
+          : <FeaturePane activeIdx={activeScreen} opacity={featureOpacity} />
+        }
 
         <PhoneStage activeScreen={activeScreen} transform={transform} />
 
