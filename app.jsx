@@ -811,6 +811,8 @@ function PinkStreakOverlay({ targetRef }) {
 }
 
 function PricingSection() {
+  const { w } = useViewport();
+  const isMobile = w < 768;
   const CheckIcon = () => (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
       <circle cx="9" cy="9" r="9" fill="#FFF0F5" />
@@ -850,8 +852,9 @@ function PricingSection() {
       </div>
 
       <div style={{
-        display: 'grid', gridTemplateColumns: '1fr',
-        gap: 24, maxWidth: 560, margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+        gap: 24, maxWidth: isMobile ? 560 : 920, margin: '0 auto',
       }}>
 
         {/* Clinic Growth Plan */}
