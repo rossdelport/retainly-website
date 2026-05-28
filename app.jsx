@@ -782,7 +782,7 @@ function HowItWorks() {
               <h2 style={{
                 margin: '0 0 14px', fontSize: 'clamp(32px, 4.5vw, 58px)',
                 fontWeight: 800, letterSpacing: -1.6, lineHeight: 1.05, color: '#0a0a0a',
-              }}>3 Easy steps to build your app right now!</h2>
+              }}>3 easy steps to get your clinic app</h2>
               <p style={{ margin: 0, fontSize: 17, color: '#6a6a6a', fontWeight: 400 }}>
                 Free trial. Preview your app today.
               </p>
