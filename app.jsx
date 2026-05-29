@@ -100,7 +100,7 @@ function NavBar({ scrolled, hideT = 0 }) {
             {links.map((l) => (
               <a key={l.href} href={l.href} style={{ color: 'inherit', textDecoration: 'none' }}>{l.label}</a>
             ))}
-            <a href="#book" style={{
+            <a href="https://retainly.com.au/demo" style={{
               background: '#0a0a0a', color: '#fff', padding: '10px 18px',
               borderRadius: 999, textDecoration: 'none', fontWeight: 600, fontSize: 13.5,
             }}>Book a demo</a>
@@ -154,7 +154,7 @@ function NavBar({ scrolled, hideT = 0 }) {
               >{l.label}</a>
             ))}
             <a
-              href="#book"
+              href="https://retainly.com.au/demo"
               onClick={() => setMenuOpen(false)}
               style={{
                 marginTop: 16, display: 'block', textAlign: 'center',
@@ -314,7 +314,7 @@ function HeroCopy({ opacity, translateY, headline, sub, isMobile }) {
         fontSize: 18, fontWeight: 400, lineHeight: 1.5, color: '#5a5a5a',
       }}>{sub}</p>
       <div style={{ marginTop: 30, display: 'inline-flex', gap: 12 }}>
-        <a href="#download" style={{
+        <a href="https://retainly.com.au/demo" style={{
           background: '#0a0a0a', color: '#fff', padding: '14px 22px',
           borderRadius: 999, textDecoration: 'none', fontWeight: 600, fontSize: 14.5,
           display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -324,7 +324,7 @@ function HeroCopy({ opacity, translateY, headline, sub, isMobile }) {
           </svg>
           Download for iOS
         </a>
-        <LiquidGlassButton href="#demo">Book a demo →</LiquidGlassButton>
+        <LiquidGlassButton href="https://retainly.com.au/demo">Book a demo →</LiquidGlassButton>
       </div>
     </div>
   );
@@ -396,7 +396,7 @@ function FeaturePane({ activeIdx, opacity }) {
               <p style={{
                 margin: '20px 0 0', fontSize: 17, lineHeight: 1.55, color: '#5a5a5a', fontWeight: 400,
               }}>{s.body}</p>
-              <a href="#download" style={{
+              <a href="https://retainly.com.au/demo" style={{
                 marginTop: 28, display: 'inline-flex', alignItems: 'center', gap: 8,
                 background: '#0a0a0a', color: '#fff',
                 padding: '13px 22px', borderRadius: 999,
@@ -1023,7 +1023,7 @@ function PricingSection() {
               </div>
             ))}
           </div>
-          <a href="#demo" style={{
+          <a href="https://retainly.com.au/demo" style={{
             display: 'block', textAlign: 'center',
             background: '#FF3B7F', color: '#fff',
             padding: '16px', borderRadius: 999,
@@ -1064,7 +1064,7 @@ function PricingSection() {
               </div>
             ))}
           </div>
-          <a href="#demo" style={{
+          <a href="https://retainly.com.au/demo" style={{
             display: 'block', textAlign: 'center',
             background: '#FF3B7F', color: '#fff',
             padding: '16px', borderRadius: 999,
@@ -1107,11 +1107,11 @@ function CTAFooter() {
             See Retainly running on your clinic's data in a 20-minute demo. We'll have your branded app live within a week.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="#demo" style={{
+            <a href="https://retainly.com.au/demo" style={{
               background: '#FF3B7F', color: '#fff', padding: '15px 26px',
               borderRadius: 999, textDecoration: 'none', fontWeight: 700, fontSize: 15,
             }}>Book a demo</a>
-            <a href="#ios" style={{
+            <a href="https://retainly.com.au/demo" style={{
               background: 'transparent', color: '#fff', padding: '15px 26px',
               borderRadius: 999, textDecoration: 'none', fontWeight: 600, fontSize: 15,
               border: '1px solid rgba(255,255,255,0.25)',
