@@ -68,7 +68,7 @@ function NavBar({ scrolled, hideT = 0 }) {
     { label: 'Features', href: '#features' },
     { label: 'For clinics', href: '#clinics' },
     { label: 'Pricing', href: '#pricing' },
-    { label: 'Log in', href: '#login' },
+    { label: 'Log in', href: 'login.html' },
   ];
 
   return (
